@@ -9,14 +9,14 @@ import net.minestom.server.utils.binary.BinaryWriter;
 import org.jetbrains.annotations.NotNull;
 
 public record BlockActionPacket(@NotNull Point blockPosition, byte actionId,
-                                byte actionParam, int blockId, int sequence) implements ServerPacket {
-    public BlockActionPacket(Point blockPosition, byte actionId, byte actionParam, Block block, int sequence) {
-        this(blockPosition, actionId, actionParam, block.id(), sequence);
+                                byte actionParam, int blockId) implements ServerPacket {
+    public BlockActionPacket(Point blockPosition, byte actionId, byte actionParam, Block block) {
+        this(blockPosition, actionId, actionParam, block.id());
     }
 
     public BlockActionPacket(BinaryReader reader) {
         this(reader.readBlockPosition(), reader.readByte(),
-                reader.readByte(), reader.readVarInt(), reader.readVarInt());
+                reader.readByte(), reader.readVarInt());
     }
 
     @Override
@@ -25,7 +25,6 @@ public record BlockActionPacket(@NotNull Point blockPosition, byte actionId,
         writer.writeByte(actionId);
         writer.writeByte(actionParam);
         writer.writeVarInt(blockId);
-        writer.writeVarInt(sequence);
     }
 
     @Override
