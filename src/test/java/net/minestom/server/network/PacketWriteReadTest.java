@@ -62,7 +62,7 @@ public class PacketWriteReadTest {
         SERVER_PACKETS.add(new AcknowledgeBlockChangePacket(0));
         SERVER_PACKETS.add(new ActionBarPacket(COMPONENT));
         SERVER_PACKETS.add(new AttachEntityPacket(5, 10));
-        SERVER_PACKETS.add(new BlockActionPacket(VEC, (byte) 5, (byte) 5, 5, 0));
+        SERVER_PACKETS.add(new BlockActionPacket(VEC, (byte) 5, (byte) 5, 5));
         SERVER_PACKETS.add(new BlockBreakAnimationPacket(5, VEC, (byte) 5));
         SERVER_PACKETS.add(new BlockChangePacket(VEC, 0));
         SERVER_PACKETS.add(new BlockEntityDataPacket(VEC, 5, NBT.Compound(Map.of("key", NBT.String("value")))));
