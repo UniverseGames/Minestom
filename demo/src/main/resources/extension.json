@@ -3,7 +3,7 @@
   "name": "TestExtension",
   "version": "1.0.0",
   "repositories": [
-    { "name": "Central", "url": "https://repo1.maven.org/maven2/" }
+    { "id": "Central", "url": "https://repo1.maven.org/maven2/" }
   ],
   "dependencies": [
     "mysql:mysql-connector-java:8.0.26",
