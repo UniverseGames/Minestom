@@ -2,12 +2,21 @@
   "entrypoint": "net.minestom.demo.extension.TestExtension",
   "name": "TestExtension",
   "version": "1.0.0",
-  "externalDependencies": {
-    "repositories": [
-      { "name": "Central", "url": "https://repo1.maven.org/maven2/" }
-    ],
-    "artifacts": [
-      "mysql:mysql-connector-java:8.0.26"
-    ]
-  }
+  "repositories": [
+    { "name": "Central", "url": "https://repo1.maven.org/maven2/" }
+  ],
+  "dependencies": [
+    "mysql:mysql-connector-java:8.0.26",
+    "org.apache.commons:commons-lang3:3.12.0",
+    {
+      "id": "org.lwjgl:lwjgl:3.3.0:natives-macos-arm64",
+      "os": "macos",
+      "arch": "arm64"
+    },
+    {
+      "id": "org.lwjgl:lwjgl:3.3.0:natives-linux-arm64",
+      "os": "linux",
+      "arch": "arm64"
+    }
+  ]
 }

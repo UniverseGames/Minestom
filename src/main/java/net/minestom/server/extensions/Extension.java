@@ -13,70 +13,37 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.HashSet;
-import java.util.Set;
 
 public abstract class Extension {
-    // Set by reflection
-    @SuppressWarnings("unused")
-    private DiscoveredExtension origin;
-    // Set by reflection
-    @SuppressWarnings("unused")
-    private Logger logger;
-    // Set by reflection
-    @SuppressWarnings("unused")
-    private EventNode<Event> eventNode;
-
-    /**
-     * List of extensions that depend on this extension.
-     */
-    protected final Set<String> dependents = new HashSet<>();
-
-    protected Extension() {
-
+    public enum LoadStatus {
+        SUCCESS,
+        FAILED
     }
 
-    public void preInitialize() {
+    ExtensionDescriptor descriptor;
+    Logger logger;
+    EventNode<Event> eventNode;
 
-    }
+    protected Extension() { }
 
-    public abstract void initialize();
-
-    public void postInitialize() {
-
-    }
-
-    public void preTerminate() {
-
-    }
+    public abstract LoadStatus initialize();
 
     public abstract void terminate();
 
-    public void postTerminate() {
-
+    public @NotNull ExtensionDescriptor descriptor() {
+        return descriptor;
     }
 
-    @NotNull
-    public DiscoveredExtension getOrigin() {
-        return origin;
-    }
-
-    /**
-     * Gets the logger for the extension
-     *
-     * @return The logger for the extension
-     */
-    @NotNull
-    public Logger getLogger() {
+    public @NotNull Logger logger() {
         return logger;
     }
 
-    public @NotNull EventNode<Event> getEventNode() {
+    public @NotNull EventNode<Event> eventNode() {
         return eventNode;
     }
 
-    public @NotNull Path getDataDirectory() {
-        return getOrigin().getDataDirectory();
+    public @NotNull Path dataDirectory() {
+        return descriptor().dataDirectory();
     }
 
     /**
@@ -106,7 +73,7 @@ public abstract class Extension {
      * @return The file contents, or null if there was an issue reading the file.
      */
     public @Nullable InputStream getResource(@NotNull Path target) {
-        final Path targetFile = getDataDirectory().resolve(target);
+        final Path targetFile = dataDirectory().resolve(target);
         try {
             // Copy from jar if the file does not exist in the extension data directory.
             if (!Files.exists(targetFile)) {
@@ -130,7 +97,7 @@ public abstract class Extension {
      */
     public @Nullable InputStream getPackagedResource(@NotNull String fileName) {
         try {
-            final URL url = getOrigin().getClassLoader().getResource(fileName);
+            final URL url = descriptor().classLoader().getResource(fileName);
             if (url == null) {
                 getLogger().debug("Resource not found: {}", fileName);
                 return null;
@@ -172,7 +139,7 @@ public abstract class Extension {
      * @return True if the resource was saved successfully, null otherwise
      */
     public boolean savePackagedResource(@NotNull Path target) {
-        final Path targetFile = getDataDirectory().resolve(target);
+        final Path targetFile = dataDirectory().resolve(target);
         try (InputStream is = getPackagedResource(target)) {
             if (is == null) {
                 return false;
@@ -188,9 +155,34 @@ public abstract class Extension {
     }
 
     /**
-     * @return A modifiable list of dependents.
+     * @see #descriptor()
      */
-    public Set<String> getDependents() {
-        return dependents;
+    @Deprecated
+    public final @NotNull ExtensionDescriptor getOrigin() {
+        return descriptor();
+    }
+
+    /**
+     * @see #logger()
+     */
+    @Deprecated
+    public final @NotNull Logger getLogger() {
+        return logger();
+    }
+
+    /**
+     * @see #eventNode()
+     */
+    @Deprecated
+    public final @NotNull EventNode<Event> getEventNode() {
+        return eventNode();
+    }
+
+    /**
+     * @see #dataDirectory()
+     */
+    @Deprecated
+    public final @NotNull Path getDataDirectory() {
+        return dataDirectory();
     }
 }

@@ -74,6 +74,7 @@ final class ServerProcessImpl implements ServerProcess {
 
     public ServerProcessImpl() throws IOException {
         this.exception = new ExceptionManager();
+        this.eventHandler = new GlobalEventHandler();
         this.extension = new ExtensionManager(this);
         this.connection = new ConnectionManager();
         this.packetProcessor = new PacketProcessor();
@@ -83,7 +84,6 @@ final class ServerProcessImpl implements ServerProcess {
         this.command = new CommandManager();
         this.recipe = new RecipeManager();
         this.team = new TeamManager();
-        this.eventHandler = new GlobalEventHandler();
         this.scheduler = new SchedulerManager();
         this.benchmark = new BenchmarkManager();
         this.dimension = new DimensionTypeManager();
@@ -208,12 +208,9 @@ final class ServerProcessImpl implements ServerProcess {
             throw new IllegalStateException("Server already started");
         }
 
-        extension.start();
-        extension.gotoPreInit();
-
         LOGGER.info("Starting Minestom server.");
 
-        extension.gotoInit();
+        extension.start();
 
         // Init server
         try {
@@ -225,8 +222,6 @@ final class ServerProcessImpl implements ServerProcess {
 
         // Start server
         server.start();
-
-        extension.gotoPostInit();
 
         LOGGER.info("Minestom server started successfully.");
 
