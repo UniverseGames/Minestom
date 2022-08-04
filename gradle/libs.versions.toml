@@ -6,7 +6,7 @@ metadata.format.version = "1.1"
 adventure = "4.10.1"
 kotlin = "1.6.20"
 hydrazine = "1.7.2"
-minestomData = "3e211f3953"
+minestomData = "1c1921cd41"
 hephaistos = "2.4.8"
 jetbrainsAnnotations = "23.0.0"
 shrinkwrap = "3.1.4"
@@ -54,6 +54,7 @@ kotlin-stdlib-jdk8 = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk
 
 # Miscellaneous
 hydrazine = { group = "com.github.MadMartian", name = "hydrazine-path-finding", version.ref = "hydrazine" }
+dependencyGetter = { group = "com.github.Minestom", name = "DependencyGetter", version.ref = "dependencyGetter" }
 minestomData = { group = "com.github.Minestom", name = "MinestomDataGenerator", version.ref = "minestomData" }
 jetbrainsAnnotations = { group = "org.jetbrains", name = "annotations", version.ref = "jetbrainsAnnotations" }
 shrinkwrap = { group = "org.jboss.shrinkwrap.resolver", name = "shrinkwrap-resolver-depchain", version.ref = "shrinkwrap" }
